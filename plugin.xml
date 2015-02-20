@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin
+	id="com.appshed.ioioplugin"
+	version="0.1"
+	xmlns="http://apache.org/cordova/ns/plugins/1.0"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<name>IOIO OTG Cordova Android Plugin</name>
+
+	<platform name="android">
+		<js-module name="IOIO cordova plugin" src="ioio.js">
+			<merges target="ioio"/>
+	    </js-module>
+
+		<source-file
+			   	   src="src/com/appshed/ioioplugin/service/IOIOCOmmunicationService.java" 
+			target-dir="src/com/appshed/ioioplugin/service" 
+		/>
+		<source-file 
+				   src="src/com/appshed/ioioplugin/phonegap/IOIOCommunication.java" 
+			target-dir="src/com/appshed/ioioplugin/phonegap" 
+		/>
+		<source-file 
+				   src="src/com/appshed/ioioplugin/entity/Pin.java" 
+			target-dir="src/com/appshed/ioioplugin/entity" 
+		/>
+		<source-file 
+				   src="src/com/appshed/ioioplugin/entity/PinAnalogInput.java" 
+			target-dir="src/com/appshed/ioioplugin/entity" 
+		/>
+		<source-file 
+				   src="src/com/appshed/ioioplugin/entity/PinDigitalInput.java" 
+			target-dir="src/com/appshed/ioioplugin/entity" 
+		/>
+		<source-file 
+				   src="src/com/appshed/ioioplugin/entity/PinDigitalOutput.java" 
+			target-dir="src/com/appshed/ioioplugin/entity" 
+		/>
+		<source-file 
+				   src="src/com/appshed/ioioplugin/entity/PinPwmOutput.java" 
+			target-dir="src/com/appshed/ioioplugin/entity" 
+		/>
+		<source-file 
+			src="res/xml/accessory_filter.xml" 
+			target-dir="res/xml" 
+		/>
+		<source-file 
+			src="res/xml/device_filter.xml" 
+			target-dir="res/xml" 
+		/>
+		
+		<source-file 
+			src="libs/ioioutils.jar" 
+			target-dir="libs" 
+		/>
+
+		<config-file target="">
+		</config-file>
+		
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<service
+			    android:name="com.appshed.ioioplugin.service.IOIOCOmmunicationService">
+				<intent-filter>
+					<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+				</intent-filter>
+				<intent-filter>
+					<action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+				</intent-filter>
+				<meta-data
+				    android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+					android:resource="@xml/accessory_filter"
+				/>
+				<meta-data
+				    android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+					android:resource="@xml/device_filter"
+				/>
+			</service>
+		</config-file>
+
+		<config-file target="res/xml/config.xml" parent="/widget">
+			<feature name="IOIOCommunication">
+				<param name="android-package" value="com.appshed.ioioplugin.phonegap.IOIOCommunication" />	    
+			</feature>
+		</config-file>
+		
+	</platform>
+
+</plugin>
