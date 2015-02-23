@@ -26,6 +26,7 @@ var ioio = {
 				if (allListener) {
 					allListener(vals);
 				}
+
 				for(var i=0;i<vals.length;i++){
 					var pin = vals[i];
 					switch(pin.class){
@@ -71,7 +72,14 @@ var ioio = {
 					cordova.exec(function(){},function(){},'IOIOCommunication','repeatMainListener',[]);
 				}, options.delay);
 			},
-			fail || function(){},
+			function(params){
+				succ = null;
+				allListener = null;
+				if(fail){
+					fail(params);
+				}
+
+			},
             'IOIOCommunication',
             'openIOIO',
             [options]

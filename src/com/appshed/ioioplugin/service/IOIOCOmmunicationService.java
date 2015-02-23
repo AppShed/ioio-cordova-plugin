@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.appshed.ioioplugin.entity.Pin;
 import com.appshed.ioioplugin.entity.PinAnalogInput;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
+import ioio.lib.api.IOIO.VersionType;
 import ioio.lib.api.Uart.StopBits;
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
@@ -86,6 +88,22 @@ public class IOIOCOmmunicationService extends IOIOService {
 			/**
 			 * here we need to open all ports before we would use them
 			 */
+
+			@Override
+			public void incompatible() {
+				JSONObject r = new JSONObject();
+				try{
+					r.put("IOIOLIB_VER", ioio_.getImplVersion(VersionType.IOIOLIB_VER));
+					r.put("APP_FIRMWARE_VER", ioio_.getImplVersion(VersionType.APP_FIRMWARE_VER));
+					r.put("BOOTLOADER_VER", ioio_.getImplVersion(VersionType.BOOTLOADER_VER));
+					r.put("HARDWARE_VER", ioio_.getImplVersion(VersionType.HARDWARE_VER));
+				}catch(Exception e){}
+				
+				PluginResult result = new PluginResult(PluginResult.Status.ERROR,r);
+                result.setKeepCallback(true);
+				eventListener.sendPluginResult(result);
+			}
+			
 			@Override
 			protected void setup() throws ConnectionLostException,InterruptedException {
 				
@@ -156,7 +174,6 @@ public class IOIOCOmmunicationService extends IOIOService {
 					}
 				}
 
-				//System.out.println("send " + parameters.toString());
 				PluginResult result = new PluginResult(PluginResult.Status.OK, parameters);
                 result.setKeepCallback(true);
 				eventListener.sendPluginResult(result);
