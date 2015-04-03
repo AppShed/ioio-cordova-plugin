@@ -53,9 +53,14 @@
 			src="libs/ioioutils.jar" 
 			target-dir="libs" 
 		/>
+		<source-file 
+			src="libs/ioiolibbt.jar" 
+			target-dir="libs"
+		/>
 
-		<config-file target="">
-		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.BLUETOOTH" />		
+  	  	</config-file>
 		
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
 			<service
