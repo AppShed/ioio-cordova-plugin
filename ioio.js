@@ -24,7 +24,11 @@ var ioio = {
 				}
 
 				if (allListener) {
-					allListener(vals);
+					try{
+						allListener(vals);
+					}catch(e){
+						console.log('IOIO Callback function error' ,e);
+			                }
 				}
 
 				for(var i=0;i<vals.length;i++){
