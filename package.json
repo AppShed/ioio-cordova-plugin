@@ -1,0 +1,10 @@
+{
+    "version": "0.0.2",
+    "name": "com.appshed.ioioplugin",
+    "cordova_name": "IOIO OTG Cordova Android Plugin",
+    "license": "Apache 2.0",
+    "platforms": [
+        "android"
+    ],
+    "engines": []
+}

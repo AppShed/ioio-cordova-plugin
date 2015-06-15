@@ -10,7 +10,7 @@ https://github.com/ytai/ioio/wiki/Getting-To-Know-The-Board#detailed-pin-functio
 
 You can use plugman to install the plugin
 
-    plugman install --platform android --project <path to your project>/platforms/android --plugin https://github.com/AppShed/ioio-cordova-plugin
+    plugman install --platform android --project <path to your project> --plugin https://github.com/AppShed/ioio-cordova-plugin
 
 [Read about plugman](http://cordova.apache.org/docs/en/4.0.0/plugin_ref_plugman.md.html)
 

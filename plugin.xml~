@@ -3,12 +3,10 @@
 	id="com.appshed.ioioplugin" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0">
 	<name>IOIO OTG Cordova Android Plugin</name>
 	<license>Apache 2.0</license>
-
-	<js-module name="IOIO" src="ioio.js">
-        	<clobbers target="cordova.plugins.IOIO" />
-	</js-module>
-
 	<platform name="android">
+		<js-module name="IOIO cordova plugin" src="ioio.js">
+			<merges target="ioio"/>
+ 		</js-module>
 
 		<source-file
 			   	   src="src/com/appshed/ioioplugin/service/IOIOCOmmunicationService.java" 
