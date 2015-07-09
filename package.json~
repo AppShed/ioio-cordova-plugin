@@ -1,0 +1,25 @@
+{
+  "name": "com.appshed.ioioplugin",
+  "version": "0.0.2",
+  "description": "",
+  "cordova": {
+    "id": "com.appshed.ioioplugin",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AppShed/ioio-cordova-plugin.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/AppShed/ioio-cordova-plugin/issues"
+  },
+  "homepage": "https://github.com/AppShed/ioio-cordova-plugin#readme"
+}

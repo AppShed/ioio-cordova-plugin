@@ -39,7 +39,7 @@ public class IOIOCOmmunicationService extends IOIOService {
 	public static boolean activeLed = true;
 	public static long lastCallbackFromJS = 0;
 	public static long lastCallbackToJS = 0;
-	
+
 	public static void initPins(){
 		System.out.print("initPins()");
 		pins = new HashMap<Integer,Pin>();
@@ -52,27 +52,27 @@ public class IOIOCOmmunicationService extends IOIOService {
 	public static void addPwnOutput(int pinPort,int freq){
 		pins.put(pinPort,new PinPwmOutput(pinPort,freq));
 	}
-	
+
 	public static void addDigitalOutput(int pinPort){
 		pins.put(pinPort,new PinDigitalOutput(pinPort));
 	}
-	
+
 	public static void addDigitalInput(int pinPort){
 		pins.put(pinPort,new PinDigitalInput(pinPort));
 	}
 
 	public static void setPwmOutput(int pinPort,int freq){
 		if(pins.containsKey(pinPort) && pins.get(pinPort)instanceof PinPwmOutput){
-			((PinPwmOutput)pins.get(pinPort)).freq = freq; 
+			((PinPwmOutput)pins.get(pinPort)).freq = freq;
 		}
 	}
-	
+
 	public static void setDigitalOutput(int pinPort,boolean output){
 		if(pins.containsKey(pinPort) && pins.get(pinPort)instanceof PinDigitalOutput){
 			((PinDigitalOutput)pins.get(pinPort)).output = output;
 		}
 	}
-	
+
 	public static void toggleDigitalOutput(int pinPort){
 		if(pins.containsKey(pinPort) && pins.get(pinPort)instanceof PinDigitalOutput){
 			PinDigitalOutput pinDigitalOutput = (PinDigitalOutput)pins.get(pinPort);
@@ -98,29 +98,29 @@ public class IOIOCOmmunicationService extends IOIOService {
 					r.put("BOOTLOADER_VER", ioio_.getImplVersion(VersionType.BOOTLOADER_VER));
 					r.put("HARDWARE_VER", ioio_.getImplVersion(VersionType.HARDWARE_VER));
 				}catch(Exception e){}
-				
+
 				PluginResult result = new PluginResult(PluginResult.Status.ERROR,r);
                 result.setKeepCallback(true);
 				eventListener.sendPluginResult(result);
 			}
-			
+
 			@Override
 			protected void setup() throws ConnectionLostException,InterruptedException {
-				
-				
+
+
 				led_ = ioio_.openDigitalOutput(IOIO.LED_PIN);
 				for(Integer pinPort:pins.keySet()){
 					Pin pin = pins.get(pinPort);
 
 					if(pin instanceof PinPwmOutput){ // PinPwmOutput
 						PinPwmOutput pinPwmOutput = (PinPwmOutput)pin;
-						pinPwmOutput.pwmOutput = ioio_.openPwmOutput(pinPort, PWN_MAX_FREQ); 
+						pinPwmOutput.pwmOutput = ioio_.openPwmOutput(pinPort, PWN_MAX_FREQ);
 					}else if(pin instanceof PinAnalogInput){ // PinAnalogInput
 						PinAnalogInput pinAnalogInput = (PinAnalogInput)pin;
 						pinAnalogInput.analogInput = ioio_.openAnalogInput(pinPort);
 					}else if(pin instanceof PinDigitalOutput){ // PinDigitalOutput
 						PinDigitalOutput pinDigitalOutput = (PinDigitalOutput)pin;
-						pinDigitalOutput.digitalOutput = ioio_.openDigitalOutput(pinPort);						
+						pinDigitalOutput.digitalOutput = ioio_.openDigitalOutput(pinPort);
 					}else if(pin instanceof PinDigitalInput){ // PinDigitalInput
 						PinDigitalInput pinDigitalInput = (PinDigitalInput)pin;
 						pinDigitalInput.digitalInput = ioio_.openDigitalInput(pinPort);
@@ -129,11 +129,11 @@ public class IOIOCOmmunicationService extends IOIOService {
 			}
 
 			/**
-			 * here we read/write from/to board with minimum delay of 100 milliseconds, on JS side we would increase this value 
+			 * here we read/write from/to board with minimum delay of 100 milliseconds, on JS side we would increase this value
 			 */
 			@Override
 			public void loop() throws ConnectionLostException,InterruptedException {
-								
+
 				if(lastCallbackFromJS == 0 || (IOIOCOmmunicationService.lastCallbackToJS+delay) > System.currentTimeMillis()){
 					return;
 				}
@@ -147,7 +147,7 @@ public class IOIOCOmmunicationService extends IOIOService {
 				for(Integer pinPort:pins.keySet()){
 					Pin pin = pins.get(pinPort);
 					if(pins.get(pinPort) instanceof PinPwmOutput){ // PinPwmOutput
-						PinPwmOutput pinPwmOutput = (PinPwmOutput)pins.get(pinPort); 
+						PinPwmOutput pinPwmOutput = (PinPwmOutput)pins.get(pinPort);
 						pinPwmOutput.pwmOutput.setPulseWidth(pinPwmOutput.freq);
 						try {
 							parameters.put(pinPwmOutput.getJson());
@@ -161,7 +161,7 @@ public class IOIOCOmmunicationService extends IOIOService {
 			            } catch (Exception e) {}
 					}else if(pin instanceof PinDigitalOutput){
 						PinDigitalOutput pinDigitalOutput = (PinDigitalOutput)pin;
-						pinDigitalOutput.digitalOutput.write(!pinDigitalOutput.output); // TODO for some reasons, true is false........
+						pinDigitalOutput.digitalOutput.write(pinDigitalOutput.output);
 						try {
 							parameters.put(pinDigitalOutput.getJson());
 			            } catch (Exception e) {}
@@ -185,18 +185,18 @@ public class IOIOCOmmunicationService extends IOIOService {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		initPins();		
-		
+		initPins();
+
 		/*
 		NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		
+
 		if (intent != null && intent.getAction() != null
 				&& intent.getAction().equals("stop")) {
 			// User clicked the notification. Need to stop the service.
 			nm.cancel(0);
 			stopSelf();
 		} else {
- 
+
 			Notification notification = new Notification(
 					R.drawable.ic_launcher, "IOIO service running",
 					System.currentTimeMillis());
@@ -209,7 +209,7 @@ public class IOIOCOmmunicationService extends IOIOService {
 		}
 		//*/
 	}
-	
+
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
